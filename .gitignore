@@ -1,5 +1,6 @@
 venv
 *.pyc
-/migrations/
-/__pycache__/
+*/migrations/*
+__pycache__
 db.sqlite3
+myproject/conf.py

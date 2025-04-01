@@ -4,10 +4,18 @@ from django.contrib.auth import login, authenticate
 from .froms import SignUpForm
 from .models import CustomUser
 from django.contrib.auth.hashers import make_password
+from django.core.mail.message import EmailMessage
 
 def home(request):
     return render(request, 'home.html')
 
+def send_email(request):
+    subject = "message"
+    to = ["id@gmail.com"]
+    from_email = "id@gmail.com"
+    message = "메시지 테스트"
+    EmailMessage(subject=subject, body=message, to=to, from_email = from_email).send()
+    
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -37,7 +45,7 @@ def logout_view(request):
             return redirect('user:home')
     return redirect('user:home')
 
-def findpw_view(request):
+def findPWwithID_view(request):
     if request.method == "POST":
         password1=request.POST['f_pw1']
         password2=request.POST['f_pw2']
@@ -47,4 +55,4 @@ def findpw_view(request):
             user.save()
         return redirect('user:home')
     else:
-        return render(request, 'findpw.html')
+        return render(request, 'findPWwithID.html')

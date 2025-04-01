@@ -3,5 +3,6 @@
 {%else%}
     <a href="{%url 'user:signup' %}"><button>회원가입</button></a>
     <a href="{%url 'user:login' %}"><button>로그인</button></a>
-    <a href="{%url 'user:findpw' %}"><button>비밀번호 찾기</button></a>
+    <a href="{%url 'user:findpwwithid' %}"><button>아이디로 비밀번호 찾기</button></a>
+    <a href="{%url 'user:password_reset' %}"><button>이메일로 비밀번호 찾기</button></a>
 {%endif%}
