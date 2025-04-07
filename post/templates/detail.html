@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>글 자세히보기</title>
+    </head>
+    <body>
+        <h2>제목 : {{ post.title }}</h2><br>
+        <p>작성자 : {{ post.user }}</p>
+        <p>작성시각 : {{ post.created_at }}</p>
+        <p>개발 스택 : {{ post.techstack }}</p><br>
+        <p>내용 : {{ post.content }}</p><br><br>
+        
+        {%if post.githublink%}
+        <a href={{post.githublink}} target="_blank"><button>깃허브로 이동</button></a><br><br>
+        {%endif%}
+
+        {%for img in images%}
+        <img src="{{img.image.url}}" style="width:200px;border:2px solid black"><br>
+        {%endfor%}
+    </body>
+</html>

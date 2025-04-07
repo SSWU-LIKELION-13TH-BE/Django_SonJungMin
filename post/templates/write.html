@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>글 작성</title>
+    </head>
+    <body>
+        <h2>글 작성</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type='file' name="image" multiple accept="image/*">
+            <button type="submit">저장</button>
+        </form>
+    </body>
+</html>

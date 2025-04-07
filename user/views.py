@@ -4,17 +4,9 @@ from django.contrib.auth import login, authenticate
 from .froms import SignUpForm
 from .models import CustomUser
 from django.contrib.auth.hashers import make_password
-from django.core.mail.message import EmailMessage
 
 def home(request):
     return render(request, 'home.html')
-
-def send_email(request):
-    subject = "message"
-    to = ["id@gmail.com"]
-    from_email = "id@gmail.com"
-    message = "메시지 테스트"
-    EmailMessage(subject=subject, body=message, to=to, from_email = from_email).send()
     
 def signup_view(request):
     if request.method == 'POST':
