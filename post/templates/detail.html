@@ -9,6 +9,16 @@
         <p>작성자 : {{ post.user }}</p>
         <p>작성시각 : {{ post.created_at }}</p>
         <p>개발 스택 : {{ post.techstack }}</p><br>
+        <form action="{% url 'post:post_likes' post_id=post.id %}" method="POST">
+            {% csrf_token %}
+            {% if request.user in post.likes.all %}
+            <input type="submit" value="좋아요 취소">
+            {% else %}
+            <input type="submit" value="좋아요">
+            {% endif %}
+            <p>{{post.likes.all.count}}명이 이 글을 좋아합니다.</p>
+        </form>
+        </div>
         <p>내용 : {{ post.content }}</p><br><br>
         
         {%if post.githublink%}
@@ -19,6 +29,8 @@
         <img src="{{img.image.url}}" style="width:200px;border:2px solid black">&nbsp;&nbsp;
         {%endfor%}
         <br><br><br>
+        <div>
+        
 
         <form method="POST" action={%url 'post:comment' post_id=post.id %}>
             {% csrf_token %}
@@ -30,7 +42,17 @@
         <div style="border:2px solid black; width:800px;padding:10px;">
             {% for comment in post.comments.all %} 
                 {% if not comment.parent_comment %}
-                    <li class="comment" style="list-style-type: none;">{{ comment.comment_content }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성자 : {{ comment.user }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성시간 : {{ comment.comment_datetime }}</li>
+                    <li class="comment" style="list-style-type: none;">{{ comment.comment_content }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성자 : {{ comment.user }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성시간 : {{ comment.comment_datetime }}<br>
+                        <form action="{% url 'post:comment_likes' comment_id=comment.id %}" method="POST">
+                            {% csrf_token %}
+                            {% if request.user in comment.likes.all %}
+                            <input type="submit" value="좋아요 취소">
+                            {% else %}
+                            <input type="submit" value="좋아요">
+                            {% endif %}
+                            <p>{{comment.likes.all.count}}명이 이 글을 좋아합니다.</p>
+                        </form>
+                    </li>
                     <form method="POST" action="{% url 'post:comment' post_id=post.id %}">
                         {%csrf_token%}
                         <input type="hidden" name="parent_comment_id" value="{{ comment.id }}" >
@@ -40,7 +62,17 @@
                 {% endif %} 
                 {% for reply in comment.replies.all %} 
                     {% if reply.parent_comment == comment %}
-                        <li class="replies" style="list-style-type: none;">&nbsp;&nbsp;↳&nbsp;&nbsp;{{ reply.comment_content }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성자 : {{ reply.user }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성시간 : {{ reply.comment_datetime }}</li>
+                        <li class="replies" style="list-style-type: none;">&nbsp;&nbsp;↳&nbsp;&nbsp;{{ reply.comment_content }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성자 : {{ reply.user }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성시간 : {{ reply.comment_datetime }}<br>
+                            <form action="{% url 'post:comment_likes' comment_id=reply.id %}" method="POST">
+                                {% csrf_token %}
+                                {% if request.user in reply.likes.all %}
+                                <input type="submit" value="좋아요 취소">
+                                {% else %}
+                                <input type="submit" value="좋아요">
+                                {% endif %}
+                                <p>&nbsp;&nbsp;{{reply.likes.all.count}}명이 이 댓글을 좋아합니다.</p>
+                            </form>
+                        </li>
                     {% endif %}
                 {% endfor %}
                 <br>

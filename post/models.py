@@ -15,6 +15,7 @@ class Post(models.Model):
     )
     techstack = models.CharField(max_length=7, default="ect", choices=TECH_STACK_CHOICES, verbose_name="사용한 기술 스택")
     githublink = models.CharField(max_length=100, blank=True, null=True)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_posts')
     
     
     
@@ -31,6 +32,7 @@ class Comment(models.Model):
     comment_content = models.TextField()
     comment_datetime = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_comments')
 
     
     def __str__(self):
