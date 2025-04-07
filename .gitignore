@@ -1,6 +1,10 @@
 venv
 *.pyc
 */migrations/*
-__pycache__
+__pycache__/
+*.pyc
 db.sqlite3
 myproject/conf.py
+media
+media/images
+migrations/
