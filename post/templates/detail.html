@@ -16,7 +16,40 @@
         {%endif%}
 
         {%for img in images%}
-        <img src="{{img.image.url}}" style="width:200px;border:2px solid black"><br>
+        <img src="{{img.image.url}}" style="width:200px;border:2px solid black">&nbsp;&nbsp;
         {%endfor%}
+        <br><br><br>
+
+        <form method="POST" action={%url 'post:comment' post_id=post.id %}>
+            {% csrf_token %}
+            <input type="text" name="comments" placeholder="댓글 입력..." >
+            <input type="hidden" name="parent_comment_id" value="{{ comment.id }}" >
+            <button type="submit" class="btn btn-info">댓글 작성</button>
+        </form><br><br>
+
+        <div style="border:2px solid black; width:800px;padding:10px;">
+            {% for comment in post.comments.all %} 
+                {% if not comment.parent_comment %}
+                    <li class="comment" style="list-style-type: none;">{{ comment.comment_content }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성자 : {{ comment.user }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성시간 : {{ comment.comment_datetime }}</li>
+                    <form method="POST" action="{% url 'post:comment' post_id=post.id %}">
+                        {%csrf_token%}
+                        <input type="hidden" name="parent_comment_id" value="{{ comment.id }}" >
+                        <input type="text" name="comments" placeholder="대댓글 입력..." >
+                        <button type="submit" class="btn btn-info">답글 작성</button>
+                    </form>
+                {% endif %} 
+                {% for reply in comment.replies.all %} 
+                    {% if reply.parent_comment == comment %}
+                        <li class="replies" style="list-style-type: none;">&nbsp;&nbsp;↳&nbsp;&nbsp;{{ reply.comment_content }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성자 : {{ reply.user }}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;작성시간 : {{ reply.comment_datetime }}</li>
+                    {% endif %}
+                {% endfor %}
+                <br>
+            {% endfor %}
+            
+        </div><br>
+        <a class="listname" href="{% url 'post:list' %}">글 목록</a>
+        <br>
+        {% comment %} {% endblock %} {% endcomment %}
+        
     </body>
 </html>

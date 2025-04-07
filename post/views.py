@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post, Image
+from .models import Post, Image, Comment
 from .forms import PostForm
+from django.utils import timezone
+
 
 # Create your views here.
 def list_view(request):
@@ -27,13 +29,28 @@ def write_veiw(request):
 def detail_veiw(request, post_id):
     post=get_object_or_404(Post, pk=post_id)
     images=Image.objects.filter(post=post)
+    comments=Comment.objects.filter(post=post)
     context={
         'post':post,
         'images':images,
+        'comments':comments,
     }
     return render(request, 'detail.html', context)
     
-# form = []
-#     for post in posts:
-#         image = Image.objects.filter(post=post).first()
-#         form.append(post, image)
+def comment_view(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    if request.method == 'POST':
+        comment_content = request.POST['comments']
+        parent_comment_id = request.POST.get('parent_comment_id')  
+        
+        if parent_comment_id:
+            parent_comment = Comment.objects.get(pk=parent_comment_id)
+            new_comment = Comment(post=post, parent_comment=parent_comment, comment_content=comment_content, comment_datetime=timezone.now(), user=request.user)
+        else:
+            new_comment = Comment(post=post, comment_content=comment_content, comment_datetime=timezone.now(), user=request.user)
+        
+        new_comment.save() 
+        
+        return redirect('post:detail', post_id=post_id)
+    
+    return redirect('post:detail', post_id=post_id)
