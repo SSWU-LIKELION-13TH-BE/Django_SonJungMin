@@ -54,3 +54,24 @@ def comment_view(request, post_id):
         return redirect('post:detail', post_id=post_id)
     
     return redirect('post:detail', post_id=post_id)
+
+def post_likes_view(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    if request.user.is_authenticated:
+        if post.likes.filter(pk=request.user.pk).exists():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+        return redirect('post:detail', post_id)
+    return redirect('user:login')
+
+def comment_likes_view(request, comment_id):
+    comment = Comment.objects.get(pk=comment_id)
+    if request.user.is_authenticated:
+        post_id=comment.post.id
+        if comment.likes.filter(pk=request.user.pk).exists():
+            comment.likes.remove(request.user)
+        else:
+            comment.likes.add(request.user)
+        return redirect('post:detail', post_id )
+    return redirect('user:login')
