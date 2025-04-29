@@ -1,0 +1,21 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var divs = document.querySelectorAll('div[data-href]');
+        divs.forEach(function (div) {
+            div.addEventListener('click', function () {
+                window.location.href = this.dataset.href;
+            });
+        });
+    });
+</script>
+
+{% for post in posts %}
+
+    <div style="border:2px solid black; width:600px; height:40px; display: flex; align-items: center; padding: 10px;" data-href="{% url 'post:detail' post_id=post.id %}" >                            
+        <p><strong>{{ post.title }}</strong></p>&nbsp;&nbsp;&nbsp;
+        <p>{{ post.created_at }}</p>&nbsp;&nbsp;&nbsp;
+        <p>{{ post.user }}</p>&nbsp;&nbsp;&nbsp;
+    </div>
+    <br>
+
+{% endfor %}

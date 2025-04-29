@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post, Image, Comment
 from .forms import PostForm
 from django.utils import timezone
-
+from django.urls import reverse
+from django.db.models import Q, Count
 
 # Create your views here.
 def list_view(request):
-    posts=Post.objects.all()
+    posts=Post.objects.all().order_by('-created_at')
     return render(request, 'list.html', {'posts' : posts})
 
 def write_veiw(request):
@@ -30,6 +31,8 @@ def detail_veiw(request, post_id):
     post=get_object_or_404(Post, pk=post_id)
     images=Image.objects.filter(post=post)
     comments=Comment.objects.filter(post=post)
+    post.views+=1
+    post.save()
     context={
         'post':post,
         'images':images,
@@ -75,3 +78,43 @@ def comment_likes_view(request, comment_id):
             comment.likes.add(request.user)
         return redirect('post:detail', post_id )
     return redirect('user:login')
+
+def search_veiw(request):
+    if request.method == 'POST':
+        searchbar=request.POST.get('searchbar', '')
+        return redirect(f'{reverse("post:search")}?searched={searchbar}')
+    else:
+        searchbar=request.GET.get('searched','')
+        search_terms=set(searchbar.replace(',',' ').split())
+        search_terms=set(term.lower() for term in search_terms)
+        
+        query=Q()
+        
+        for term in search_terms:
+            query |= Q(title__icontains = term)
+        
+        posts=Post.objects.filter(query)
+        
+        post_with_count = []
+        
+        for post in posts:
+            count = sum(post.title.count(term) for term in search_terms)
+            # images = Image.objects.filter(post_id=post.id)
+            
+            post_with_count.append((post, count))
+            
+        post_with_count.sort(key = lambda x:(x[1], x[0].created_at), reverse=True)
+        sorted_posts=[post for post, count in post_with_count]
+        
+        return render(request, 'search.html', {'posts':sorted_posts})
+    
+def list_sort_view(request):
+    if request.method == 'POST':
+        type=request.POST.get('list_sort', 'recent')
+        if type=="recent":
+            posts=Post.objects.all().order_by('-created_at')
+        else:
+            posts=Post.objects.all().annotate(like_count=Count('likes')).order_by('-like_count')
+        return render(request, 'list.html', {'posts' : posts})
+        
+        
