@@ -16,8 +16,7 @@ class Post(models.Model):
     techstack = models.CharField(max_length=7, default="ect", choices=TECH_STACK_CHOICES, verbose_name="사용한 기술 스택")
     githublink = models.CharField(max_length=100, blank=True, null=True)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_posts')
-    
-    
+    views = models.IntegerField(default=0)
     
     def __str__(self):
         return self.title

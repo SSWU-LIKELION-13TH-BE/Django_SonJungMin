@@ -9,6 +9,7 @@
         <p>작성자 : {{ post.user }}</p>
         <p>작성시각 : {{ post.created_at }}</p>
         <p>개발 스택 : {{ post.techstack }}</p><br>
+        <p>조회수 : {{ post.views }}</p><br>
         <form action="{% url 'post:post_likes' post_id=post.id %}" method="POST">
             {% csrf_token %}
             {% if request.user in post.likes.all %}
