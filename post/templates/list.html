@@ -5,7 +5,7 @@
         <title>글 목록</title>
     </head>
     <body>
-        <form method="POST" action="{%url 'post:search'%}">
+        <form method="GET" action="{%url 'post:search'%}">
             {%csrf_token%}
             <input type="text" name="searchbar" style="width:300px;" placeholder="검색어를 입력하세요.">
             <button type="submit">검색</button>
@@ -14,7 +14,7 @@
         <h2>글 목록</h2>
         
         <hr>
-        <form method="POST" action="{%url 'post:list_sort'%}">
+        <form method="GET" action="{%url 'post:list'%}">
             {%csrf_token%}
             <button type="submit" name="list_sort" value="recent">최신순</button>
             <button type="submit" name="list_sort" value="popular">인기순</button>
@@ -23,6 +23,7 @@
         {%for post in posts%}
         <a href={%url 'post:detail' post_id=post.id%}>{{post.title}}</a><br><br>
         {%endfor%}
+
         <a href="{%url 'post:write'%}"><button>글 작성</button></a>
     </body>
 </html>
