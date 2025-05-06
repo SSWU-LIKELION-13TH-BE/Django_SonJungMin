@@ -14,7 +14,7 @@ class Post(models.Model):
         ('C++', 'C++'),
         ('ect', '그 외'),
     )
-    # techstack = models.CharField(max_length=7, default="ect", choices=TECH_STACK_CHOICES, verbose_name="사용한 기술 스택")
+    # techstack = models.CharField(max_length=7, default="ect", choices=TECH_STACK_CHOICES, verbose_name="사용한 기술 스택") 
     techstack = MultiSelectField(choices=TECH_STACK_CHOICES , max_length=50, max_choices=4)
     githublink = models.CharField(max_length=100, blank=True, null=True)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_posts')
