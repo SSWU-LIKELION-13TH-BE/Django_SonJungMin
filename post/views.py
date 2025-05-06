@@ -10,7 +10,7 @@ def list_view(request):
     posts=Post.objects.all().order_by('-created_at')
     return render(request, 'list.html', {'posts' : posts})
 
-def write_veiw(request):
+def write_view(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -27,7 +27,7 @@ def write_veiw(request):
         form=PostForm()
         return render(request, 'write.html', {'form':form})
     
-def detail_veiw(request, post_id):
+def detail_view(request, post_id):
     post=get_object_or_404(Post, pk=post_id)
     images=Image.objects.filter(post=post)
     comments=Comment.objects.filter(post=post)
@@ -79,7 +79,7 @@ def comment_likes_view(request, comment_id):
         return redirect('post:detail', post_id )
     return redirect('user:login')
 
-def search_veiw(request):
+def search_view(request):
     if request.method == 'POST':
         searchbar=request.POST.get('searchbar', '')
         return redirect(f'{reverse("post:search")}?searched={searchbar}')
