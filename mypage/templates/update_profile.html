@@ -1,0 +1,5 @@
+<form method="POST">
+    {% csrf_token %}
+    {{ u_form.as_p }}
+    <button type="submit">회원정보 수정</button>
+</form>

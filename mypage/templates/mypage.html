@@ -1,0 +1,8 @@
+<h2>✨마이페이지✨</h2>
+
+닉네임 : {{request.user.nickname}}<br><br>
+아이디 : {{request.user.username}}<br><br>
+이메일 : {{request.user.email}}<br><br>
+
+<a href="{%url 'mypage:update_profile'%}"><button>회원정보 수정</button></a>
+<a href="{%url 'mypage:change_password'%}"><button>비밀번호 변경</button></a>
