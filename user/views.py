@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth import login, authenticate
-from .froms import SignUpForm
+from .forms import SignUpForm
 from .models import CustomUser
 from django.contrib.auth.hashers import make_password
 
