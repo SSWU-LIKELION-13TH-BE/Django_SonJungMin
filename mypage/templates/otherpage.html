@@ -1,0 +1,46 @@
+<h1>✨{{owner.nickname}}님의 페이지✨</h1>
+
+아이디 : {{owner.username}}<br><br>
+이메일 : {{owner.email}}<br><br><br><br>
+
+<h2>🔮{{owner.nickname}}님의 방명록🔮</h2>
+<form method="POST" action={%url 'mypage:write_guestbook' user_id=owner.id %}>
+    {% csrf_token %}
+    <input type="text" name="g_content" placeholder="방명록을 작성해보세요!" style="width:500px;">
+    <button type="submit">작성</button>
+</form>
+
+{%for guestbook in guestbooks%}
+    <div style="border:2px solid black; width:1000px; display: flex; align-items: center; padding: 10px; margin-bottom: 10px;">
+        
+        <div style="width: 120px; flex-shrink: 0;">
+            <a href="{% url 'mypage:otherpage' user_id=guestbook.writer.id %}" style="text-decoration: none; color: black;">
+                {{ guestbook.writer }}
+            </a>
+        </div>
+
+        <!-- 내용 -->
+        <div style="flex-grow: 1;">
+            {{ guestbook.content }}
+        </div>
+
+        <!-- 시간 -->
+        <div style="width: 400px; text-align: right; flex-shrink: 0; color: gray; font-size: 0.9em;">
+            {{ guestbook.created_at }}
+            {% if guestbook.writer == request.user %}
+                <a href="{% url 'mypage:delete_guestbook' user_id=owner.id guestbook_id=guestbook.id %}">
+                    <button style="margin-left: 20px;">삭제</button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    
+{%endfor%}
+<br><br>
+
+<h2>📑{{owner.nickname}}님이 작성한 글📑</h2>
+{%for otherpost in otherposts%}
+    <a href={%url 'post:detail' post_id=otherpost.id%}>{{otherpost.title}}</a><br><br>
+{%endfor%}
+
+<br><br><hr><a href="{%url 'user:home'%}"><button>홈으로</button></a><br><br><br>

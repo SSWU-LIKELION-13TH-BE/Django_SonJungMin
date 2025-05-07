@@ -7,7 +7,33 @@
 <a href="{%url 'mypage:update_profile'%}"><button>회원정보 수정</button></a>&nbsp;&nbsp;
 <a href="{%url 'mypage:change_password'%}"><button>비밀번호 변경</button></a><br><br><br>
 
+<h2>🔮나의 방명록🔮</h2>
+
+{%for myguestbook in myguestbooks%}
+    <div style="border:2px solid black; width:600px; display: flex; align-items: center; padding: 10px; margin-bottom: 10px;">
+        
+        <div style="width: 120px; flex-shrink: 0;">
+            <a href="{% url 'mypage:otherpage' user_id=myguestbook.writer.id %}" style="text-decoration: none; color: black;">
+                {{ myguestbook.writer }}
+            </a>
+        </div>
+
+        <!-- 내용 -->
+        <div style="flex-grow: 1;">
+            {{ myguestbook.content }}
+        </div>
+
+        <!-- 시간 -->
+        <div style="width: 200px; text-align: right; flex-shrink: 0; color: gray; font-size: 0.9em;">
+            {{ myguestbook.created_at }}
+        </div>
+    </div>
+{%endfor%}
+<br><br>
+
 <h2>📑내가 작성한 글📑</h2>
 {%for mypost in myposts%}
     <a href={%url 'post:detail' post_id=mypost.id%}>{{mypost.title}}</a><br><br>
 {%endfor%}
+
+<br><br><hr><a href="{%url 'user:home'%}"><button>홈으로</button></a><br><br><br>
