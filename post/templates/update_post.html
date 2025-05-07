@@ -1,0 +1,40 @@
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ p_form.as_p }}
+
+    <input type='file' name="image" multiple accept="image/*"><br><br>
+
+    <div id="image-list">
+        {% for img in p_images %}
+            <div class="image-item" data-id="{{ img.id }}" style="margin-bottom:10px;">
+                <img src="{{ img.image.url }}" style="width:200px; border:2px solid black;">
+                <p class="delete-btn" style="cursor:pointer; display:inline; color:red;">❎</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <input type="hidden" name="delete_images" id="delete-images">
+
+    <br><button type="submit">수정</button>
+</form>
+
+
+<script>
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    const deleteImagesInput = document.getElementById('delete-images');
+    const deleteIds = [];
+
+    deleteButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const imageItem = btn.closest('.image-item');
+            const imgId = imageItem.getAttribute('data-id');
+
+            // 리스트에 추가하고 화면에서 제거
+            deleteIds.push(imgId);
+            imageItem.remove();
+
+            // hidden input 값 갱신
+            deleteImagesInput.value = deleteIds.join(',');
+        });
+    });
+</script>

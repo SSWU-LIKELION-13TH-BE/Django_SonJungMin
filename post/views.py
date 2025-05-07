@@ -109,4 +109,34 @@ def search_view(request):
         
     return render(request, 'search.html', {'posts':sorted_posts})
     
+def post_update_view(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if post.user == request.user:
+        if request.method=='GET':
+            p_form=PostForm(instance=post)
+            p_images=Image.objects.filter(post_id=post_id)
+            return render(request, 'update_post.html', {'p_form': p_form, 'p_images':p_images})
+        else:
+            p_form = PostForm(request.POST, request.FILES, instance=post)
+            if p_form.is_valid():
+                p_form.save()
+                
+                delete_ids_str = request.POST.get('delete_images', '')
+                delete_ids = delete_ids_str.split(',') if delete_ids_str else []
+            
+                for img_id in delete_ids:
+                    Image.objects.filter(id=img_id, post=post).delete()
+                    
+                for img_file in request.FILES.getlist('image'):
+                    Image.objects.create(post=post, image=img_file)
+                
+                return redirect('post:detail', post_id=post.id)
+            else:
+                return render(request, 'update_post.html', {'p_form': p_form})
+    else:
+        return redirect('post:detail', post_id=post.id)
         
+def post_delete_view(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    post.delete()
+    return redirect('post:list')

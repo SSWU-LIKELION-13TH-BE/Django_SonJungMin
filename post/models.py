@@ -7,7 +7,7 @@ class Post(models.Model):
     title = models.CharField(max_length=20, blank=False, null=False)
     content = models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
     user=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     TECH_STACK_CHOICES = (
         ('Python', 'Python'),

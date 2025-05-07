@@ -3,10 +3,12 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from post.models import Post
 
 # Create your views here.
 def mypage_view(request):
-    return render(request, 'mypage.html')
+    myposts=Post.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'mypage.html', {'myposts':myposts})
 
 @login_required
 def update_profile_view(request):
