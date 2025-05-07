@@ -119,7 +119,9 @@ def post_update_view(request, post_id):
         else:
             p_form = PostForm(request.POST, request.FILES, instance=post)
             if p_form.is_valid():
-                p_form.save()
+                updatepost = p_form.save(commit=False)
+                updatepost.updated_at = timezone.now()
+                updatepost.save()
                 
                 delete_ids_str = request.POST.get('delete_images', '')
                 delete_ids = delete_ids_str.split(',') if delete_ids_str else []
