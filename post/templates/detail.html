@@ -79,9 +79,13 @@
                 <br>
             {% endfor %}
             
-        </div><br><br><hr>
+        </div><br>
+        {%if post.user == request.user %}
+        <br><hr>
         <a href="{% url 'post:post_update' post_id=post.id %}"><button>글 수정</button></a>&nbsp;&nbsp;&nbsp;
-        <a href="{% url 'post:post_delete' post_id=post.id %}"><button>글 삭제</button></a><br><hr><br>
+        <a href="{% url 'post:post_delete' post_id=post.id %}"><button>글 삭제</button></a><br><hr>
+        {%endif%}
+        <br>
         <a href="{% url 'post:list' %}"><button>글 목록</button></a>
         <br>
         {% comment %} {% endblock %} {% endcomment %}
