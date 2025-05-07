@@ -1,8 +1,13 @@
-<h2>✨마이페이지✨</h2>
+<h1>✨마이페이지✨</h1>
 
 닉네임 : {{request.user.nickname}}<br><br>
 아이디 : {{request.user.username}}<br><br>
 이메일 : {{request.user.email}}<br><br>
 
-<a href="{%url 'mypage:update_profile'%}"><button>회원정보 수정</button></a>
-<a href="{%url 'mypage:change_password'%}"><button>비밀번호 변경</button></a>
+<a href="{%url 'mypage:update_profile'%}"><button>회원정보 수정</button></a>&nbsp;&nbsp;
+<a href="{%url 'mypage:change_password'%}"><button>비밀번호 변경</button></a><br><br><br>
+
+<h2>📑내가 작성한 글📑</h2>
+{%for mypost in myposts%}
+    <a href={%url 'post:detail' post_id=mypost.id%}>{{mypost.title}}</a><br><br>
+{%endfor%}
