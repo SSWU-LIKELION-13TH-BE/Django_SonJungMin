@@ -116,7 +116,8 @@ def kakao_callback_view(request):
         kakao_id=kakao_id,
         defaults={
             'username': nickname,  # 기본적으로 카카오에서 제공하는 닉네임을 사용자 이름으로 사용
-            'nickname': nickname,   # 닉네임도 저장
+            'nickname': nickname,
+            'email' : email,   # 닉네임도 저장
         }
     )
 
