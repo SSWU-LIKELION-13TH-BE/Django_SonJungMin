@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import signup_view, home, login_view, logout_view, findPWwithID_view, findPWwithID_view
+from .views import signup_view, home, login_view, logout_view, findPWwithID_view, findPWwithID_view, kakao_login_view, kakao_callback_view
 from django.contrib.auth import views as auth_views
 
 app_name = 'user'
@@ -15,4 +15,6 @@ urlpatterns = [
     path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('kakao/login/', kakao_login_view, name='kakao_login'),
+    path('kakao/callback/', kakao_callback_view, name='kakao_callback'),
 ]
