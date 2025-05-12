@@ -1,1 +1,3 @@
 pip install django-multiselectfield
+pip install django-allauth
+pip install requests
