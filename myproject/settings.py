@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'user',
     'post',
     'mypage',
+    'social_django',
     
 ]
 
@@ -150,3 +151,19 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend', 
+#     'social_core.backends.naver.NaverOAuth2',  # 네이버 로그인 백엔드 추가
+#      # 기본 인증 백엔드
+# )
+
+# NAVER_CLIENT_ID = conf.NAVER_CLIENT_ID  # 네이버 애플리케이션의 Client ID
+# NAVER_CLIENT_SECRET = conf.NAVER_CLIENT_SECRET  # 네이버 애플리케이션의 Client Secret
+# SOCIAL_AUTH_URL_NAMESPACE = conf.SOCIAL_AUTH_URL_NAMESPACE
+# LOGIN_REDIRECT_URL = conf.LOGIN_REDIRECT_URL
+
+# SOCIAL_AUTH_NAVER_KEY = conf.SOCIAL_AUTH_NAVER_KEY  # 네이버 API 클라이언트 ID
+# SOCIAL_AUTH_NAVER_SECRET = conf.SOCIAL_AUTH_NAVER_SECRET  # 네이버 API 클라이언트 시크릿
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = conf.SOCIAL_AUTH_LOGIN_REDIRECT_URL  # 로그인 후 리디렉션될 URL
+# SOCIAL_AUTH_LOGIN_ERROR_URL = conf.SOCIAL_AUTH_LOGIN_ERROR_URL  

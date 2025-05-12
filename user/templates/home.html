@@ -5,6 +5,13 @@
     <a href="{%url 'user:signup' %}"><button>회원가입</button></a>
     <a href="{%url 'user:login' %}"><button>로그인</button></a>
     <a href="{%url 'user:kakao_login' %}"><button>카카오톡으로 로그인</button></a>
+    <!-- <a href="https://nid.naver.com/oauth2.0/authorize"
+        th:href="@{https://nid.naver.com/oauth2.0/authorize(client_id=${naverClientId}, redirect_uri=${naverRedirectUri}, response_type='code', state=${state})}">
+       <img src="/images/btnG.png" style="width: 100px; height: 35px" >
+    </a> -->
+    
+     <a href="{% url 'user:naver_login' %}"><button>네이버로 로그인</button></a>
+
     <a href="{%url 'user:findpwwithid' %}"><button>아이디로 비밀번호 찾기</button></a>
     <a href="{%url 'user:password_reset' %}"><button>이메일로 비밀번호 찾기</button></a>
 {%endif%}

@@ -24,5 +24,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('account/', include('django.contrib.auth.urls')),
     path('post/', include('post.urls')),
-    path('mypage/', include('mypage.urls'))
+    path('mypage/', include('mypage.urls')),
+    # path('auth/', include('social_django.urls')),
+    # path('user/naver/callback/', include('social_django.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

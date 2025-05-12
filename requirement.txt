@@ -1,3 +1,5 @@
 pip install django-multiselectfield
 pip install django-allauth
 pip install requests
+pip install social-auth-app-django
+pip install social-auth-core
